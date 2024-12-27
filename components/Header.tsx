@@ -7,12 +7,12 @@ export default function Header() {
 
       <View style={styles.container}>
         <View style={styles.textContainer}>
-          <Text style={styles.greeting}>Hello, Anne</Text>
+          <Text style={styles.greeting}>Hello, Omar</Text>
           <Text style={styles.heading}>What would you like to cook today?</Text>
         </View>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQHsg-wJRTqPXg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1720072495950?e=1740009600&v=beta&t=mTBHrHACQw5vbvWqGCHkOFsIFTPE-xCz5x1ESO7-Yek' }} // Replace with your profile image URL
+            source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQHLX8guZZkVUQ/profile-displayphoto-shrink_400_400/B56ZPst7SqG4Ak-/0/1734843283429?e=1740614400&v=beta&t=URD5pWynOaq3XEuG2xI9aD-Ni-vyC3IiqJ75yaxG4ZA' }} // Replace with your profile image URL
             style={styles.profileImage}
           />
         </View>
