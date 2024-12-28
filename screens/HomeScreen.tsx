@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CategoriesComponent from '../components/CategoriesComponent';
 import HorizontalList from '../components/HorizontalList';
 import GridList from '../components/GridList';
+import Footer from '../components/Footer';
 
 type RootStackParamList = {
   Home: undefined;
@@ -38,8 +39,11 @@ export default function HomeScreen({ navigation }: Props) {
         <CategoriesComponent />
         <HorizontalList title="Recommendation" data={recommendationData} />
         <GridList title="Recently Viewed" data={recommendationData} />
-        <HorizontalList title="Recommendation" data={recommendationData} />
+        <HorizontalList title="Cooking Trends" data={recommendationData} />
       </ScrollView>
+      
+      <Footer />
+
     </SafeAreaView>
   );
 }
