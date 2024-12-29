@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator'; // Adjust the path as needed
 
@@ -16,7 +16,7 @@ const tabs: { name: keyof RootStackParamList; icon: IconName }[] = [
 
 export default function Footer() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const [activeTab, setActiveTab] = React.useState<keyof RootStackParamList>('Home'); // Default active tab
+  const currentRouteName = useNavigationState((state) => state.routes[state.index]?.name as keyof RootStackParamList);
 
   return (
     <View style={styles.footer}>
@@ -24,20 +24,17 @@ export default function Footer() {
         <TouchableOpacity
           key={tab.name}
           style={styles.footerButton}
-          onPress={() => {
-            setActiveTab(tab.name); // Update active tab
-            navigation.navigate(tab.name); // Navigate to the corresponding screen
-          }}
+          onPress={() => navigation.navigate(tab.name)}
         >
           <MaterialIcons
             name={tab.icon}
             size={24}
-            color={activeTab === tab.name ? '#4CAF50' : 'black'} // Green for active tab
+            color={currentRouteName === tab.name ? '#4CAF50' : 'black'} // Green for active tab
           />
           <Text
             style={[
               styles.footerText,
-              activeTab === tab.name && { color: '#4CAF50' }, // Green text for active tab
+              currentRouteName === tab.name && { color: '#4CAF50' }, // Green text for active tab
             ]}
           >
             {tab.name}
@@ -53,16 +50,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height:70,
+    height: 70,
     borderTopWidth: 1,
     borderTopColor: '#ddd',
     backgroundColor: '#fff',
-    marginBottom:20,
+    marginBottom: 20,
   },
   footerButton: {
     alignItems: 'center',
     justifyContent: 'center',
-     paddingVertical: 5
+    paddingVertical: 5,
   },
   footerText: {
     fontSize: 12,
