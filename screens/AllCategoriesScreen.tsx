@@ -1,19 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import CategoriesComponent from '../components/CategoriesComponent';
+
+import { ScrollView, StyleSheet, Text , View} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function AllCategoriesScreen() {
   return (
-     <>
-        <Text>All Categories Screen</Text>
-       <CategoriesComponent />
-     </>
+     
+     <View style={styles.screenContainer}>
+           <ScrollView contentContainerStyle={styles.contentContainer}>
+             <Text>All Categories</Text>
+             <Text>All Categories</Text>
+             <Text>All Categories</Text>
+             <Text>All Categories</Text>
+             <Text>All Categories</Text>
+             <Text>All Categories</Text>
+             <Text>All Categories</Text>
+           </ScrollView>
+      </View>
+    
     
     
   );
 }
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  contentContainer: {
+    paddingBottom:10, // Space for Footer to avoid overlap
+  },
 });
