@@ -14,6 +14,9 @@ type Props = {
 };
 
 export default function HorizontalList({ title, data }: Props) {
+  // Randomize the data
+  const randomizedData = [...data].sort(() => Math.random() - 0.5);
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -24,7 +27,7 @@ export default function HorizontalList({ title, data }: Props) {
 
       {/* Scrollable List */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {data.map((item) => (
+        {randomizedData.map((item) => (
           <View key={item.id} style={styles.card}>
             <Image source={{ uri: item.image }} style={styles.image} />
             <Text style={styles.cardTitle}>{item.title}</Text>
@@ -40,7 +43,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     marginHorizontal: 16,
-   
   },
   header: {
     flexDirection: 'row',
