@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff', // Background color matches the app design
   },
   contentContainer: {
-    paddingBottom: 80, // Space for Footer to avoid overlap
+    paddingBottom:10, // Space for Footer to avoid overlap
   },
 });

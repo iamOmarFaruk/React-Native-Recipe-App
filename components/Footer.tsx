@@ -53,18 +53,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: 60,
+    height:70,
     borderTopWidth: 1,
     borderTopColor: '#ddd',
     backgroundColor: '#fff',
+    marginBottom:20,
   },
   footerButton: {
     alignItems: 'center',
     justifyContent: 'center',
+     paddingVertical: 5
   },
   footerText: {
     fontSize: 12,
     color: '#000',
-    marginTop: 4,
+    marginTop: 5,
   },
 });

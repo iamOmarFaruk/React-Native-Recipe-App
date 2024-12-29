@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/AppNavigator'; // Adjust path if needed
+import { RootStackParamList } from '../navigation/AppNavigator'; 
 
-// Define the navigation prop type
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+// Dynamic Navigation Prop Type
+type GenericNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const categories = [
   { 
@@ -60,13 +60,11 @@ const categories = [
   },
 ];
 
-
 export default function CategoriesComponent() {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<GenericNavigationProp>();
 
   return (
     <View style={styles.container}>
-      {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.title}>Categories</Text>
         <TouchableOpacity onPress={() => navigation.navigate('AllCategories')}>
@@ -74,15 +72,10 @@ export default function CategoriesComponent() {
         </TouchableOpacity>
       </View>
 
-      {/* Categories Scroll */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.map((category) => (
           <View key={category.id} style={styles.category}>
-            <Image
-              source={{ uri: category.image }}
-              style={styles.image}
-              defaultSource={{ uri: 'https://placehold.co/60x60?text=No+Image' }} // Fallback
-            />
+            <Image source={{ uri: category.image }} style={styles.image} />
             <Text style={styles.categoryName}>{category.name}</Text>
           </View>
         ))}
