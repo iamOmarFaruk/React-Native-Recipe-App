@@ -35,11 +35,15 @@ export default function HomeScreen() {
         {/* Recommendations */}
         <HorizontalList title="Recommendation" data={recommendationData} />
 
-        {/* Recently Viewed */}
-        <GridList title="Recently Viewed" data={recommendationData} />
+
+        {/* Popular Recipes */}
+        <GridList title=" Popular Recipes" data={recommendationData} />
 
         {/* Cooking Trends */}
         <HorizontalList title="Cooking Trends" data={recommendationData} />
+
+        {/* Recently Viewed */}
+        <GridList title="Recently Viewed" data={recommendationData} />
       </ScrollView>
     </SafeAreaView>
   );
