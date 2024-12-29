@@ -41,14 +41,35 @@ export default function AppNavigator() {
             </Layout>
           )}
         />
-        <Stack.Screen
-          name="AllCategories"
-          children={() => (
-            <Layout>
-              <AllCategoriesScreen />
-            </Layout>
-          )}
-        />
+
+        {/* All Categories Start */}
+     <Stack.Screen
+  name="AllCategories"
+  children={() => (
+    <Layout>
+      <AllCategoriesScreen />
+    </Layout>
+  )}
+  options={{
+    headerShown: true,
+    headerTitle: 'All Categories',
+    headerTintColor: '#4CAF50',
+    headerStyle: {
+      backgroundColor: '#fff',
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+      fontSize: 18,
+    },
+  }}
+/>
+
+
+         {/* All Categories Start */}
+
+
+
+
         <Stack.Screen
           name="Search"
           children={() => (
