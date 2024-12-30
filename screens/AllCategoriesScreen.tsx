@@ -9,6 +9,7 @@ import {
 	Animated,
 } from "react-native";
 import { categories } from "../data/categories-data";
+import { getRandomColor } from "../data/colors";
 
 export default function AllCategoriesScreen() {
 	const animations = useRef(
@@ -28,23 +29,6 @@ export default function AllCategoriesScreen() {
 			)
 		).start();
 	}, [animations]);
-
-	// Generate random soft background colors
-	const getRandomColor = () => {
-		const colors = [
-			"#FCE4EC",
-			"#F3E5F5",
-			"#E8EAF6",
-			"#E3F2FD",
-			"#E0F7FA",
-			"#E0F2F1",
-			"#E8F5E9",
-			"#FFFDE7",
-			"#FFF3E0",
-			"#FBE9E7",
-		];
-		return colors[Math.floor(Math.random() * colors.length)];
-	};
 
 	return (
 		<View style={styles.screenContainer}>
