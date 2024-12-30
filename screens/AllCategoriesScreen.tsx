@@ -4,10 +4,11 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	Image,
 	Dimensions,
 	Animated,
 } from "react-native";
+
+import { Image } from "expo-image";
 import { categories } from "../data/categories-data";
 import { getRandomColor } from "../data/colors";
 
@@ -45,10 +46,7 @@ export default function AllCategoriesScreen() {
 								},
 							]}
 						>
-							<Image
-								source={{ uri: category.image }}
-								style={styles.categoryImage}
-							/>
+							<Image source={category.image} style={styles.categoryImage} />
 							<Text style={styles.categoryName}>{category.name}</Text>
 						</Animated.View>
 					))}

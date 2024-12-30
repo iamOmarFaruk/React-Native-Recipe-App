@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
+// import { Image } from "expo-image";
 
 export default function Header() {
 	return (
@@ -10,9 +11,7 @@ export default function Header() {
 			</View>
 			<View style={styles.imageContainer}>
 				<Image
-					source={{
-						uri: "https://media.licdn.com/dms/image/v2/D5603AQHLX8guZZkVUQ/profile-displayphoto-shrink_400_400/B56ZPst7SqG4Ak-/0/1734843283429?e=1740614400&v=beta&t=URD5pWynOaq3XEuG2xI9aD-Ni-vyC3IiqJ75yaxG4ZA",
-					}}
+					source={require("../assets/images/profile.jpeg")}
 					style={styles.profileImage}
 				/>
 			</View>
