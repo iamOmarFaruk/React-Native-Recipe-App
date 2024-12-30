@@ -35,7 +35,11 @@ export default function HorizontalList({ title, data }: Props) {
 			{/* Header */}
 			<View style={styles.header}>
 				<Text style={styles.title}>{title}</Text>
-				<TouchableOpacity onPress={() => navigation.navigate("AllRecipes")}>
+				<TouchableOpacity
+					onPress={() =>
+						navigation.navigate("AllRecipes", { title: title || "All Recipes" })
+					}
+				>
 					<Text style={styles.seeAll}>See All</Text>
 				</TouchableOpacity>
 			</View>

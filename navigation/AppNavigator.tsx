@@ -15,7 +15,7 @@ export type RootStackParamList = {
 	Home: undefined;
 	Details: undefined;
 	AllCategories: undefined;
-	AllRecipes: undefined;
+	AllRecipes: { title?: string } | undefined;
 	Search: undefined;
 	Bookmark: undefined;
 	Profile: undefined;
@@ -72,14 +72,14 @@ export default function AppNavigator() {
 				{/* All Recipes Screen */}
 				<Stack.Screen
 					name="AllRecipes"
-					children={() => (
+					children={({ route }) => (
 						<Layout>
-							<AllRecipesScreen />
+							<AllRecipesScreen route={route} />
 						</Layout>
 					)}
-					options={{
+					options={({ route }) => ({
 						headerShown: true,
-						headerTitle: "All Recipes", // Updated title for clarity
+						headerTitle: route?.params?.title || "All Recipes",
 						headerTintColor: "#4CAF50",
 						headerStyle: {
 							backgroundColor: "#fff",
@@ -88,7 +88,7 @@ export default function AppNavigator() {
 							fontWeight: "bold",
 							fontSize: 18,
 						},
-					}}
+					})}
 				/>
 
 				{/* Search Screen */}

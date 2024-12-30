@@ -9,8 +9,15 @@ import {
 	Animated,
 } from "react-native";
 import { recipes } from "../data/recipes-data";
+import { RouteProp } from "@react-navigation/native";
+import { RootStackParamList } from "../navigation/AppNavigator";
 
-export default function AllRecipesScreen() {
+type AllRecipesScreenProps = {
+	route: RouteProp<RootStackParamList, "AllRecipes">;
+};
+
+export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
+	const { title } = route.params || { title: "All Recipes" }; // Use default title if not provided
 	// Animations for each card
 	const animations = useRef(recipes.map(() => new Animated.Value(50))).current;
 
@@ -58,11 +65,14 @@ export default function AllRecipesScreen() {
 							/>
 							<View style={styles.recipeInfo}>
 								<Text style={styles.recipeTitle}>{recipe.title}</Text>
-								<Text style={styles.recipeSubtitle}>
-									{recipe.subtitle} • {recipe.reviews} reviews
-								</Text>
+								<Text style={styles.recipeSubtitle}>{recipe.subtitle}</Text>
 								<View style={styles.ratingContainer}>
-									<Text style={styles.recipeRating}>⭐ {recipe.rating}</Text>
+									<Text style={styles.recipeRating}>
+										⭐ {recipe.rating}
+										<Text style={styles.recipeRatingCount}>
+											({recipe.reviews} reviews)
+										</Text>
+									</Text>
 								</View>
 							</View>
 						</Animated.View>
@@ -98,6 +108,8 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.1,
 		shadowRadius: 5,
 		elevation: 3,
+		borderWidth: 1,
+		borderColor: "#f0f0f0",
 	},
 	recipeImage: {
 		width: "100%",
@@ -125,5 +137,10 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		fontWeight: "bold",
 		color: "#4CAF50",
+	},
+	recipeRatingCount: {
+		fontSize: 12,
+		fontWeight: "normal",
+		color: "#777",
 	},
 });
