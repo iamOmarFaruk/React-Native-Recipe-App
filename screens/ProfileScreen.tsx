@@ -54,11 +54,10 @@ export default function ProfileScreen() {
 				<View style={styles.profileHeader}>
 					<View style={styles.profileImageContainer}>
 						<Image
-							source={{
-								uri: "https://media.licdn.com/dms/image/v2/D5603AQHLX8guZZkVUQ/profile-displayphoto-shrink_400_400/B56ZPst7SqG4Ak-/0/1734843283429?e=1740614400&v=beta&t=URD5pWynOaq3XEuG2xI9aD-Ni-vyC3IiqJ75yaxG4ZA",
-							}}
+							source={require("../assets/images/profile.jpeg")} // Replace with the path to your local image
 							style={styles.profileImage}
 						/>
+
 						{/* Green Dot */}
 						<View style={styles.onlineIndicator} />
 					</View>
