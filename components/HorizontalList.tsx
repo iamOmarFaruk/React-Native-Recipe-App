@@ -6,6 +6,7 @@ import {
 	Image,
 	StyleSheet,
 	TouchableOpacity,
+	ImageSourcePropType,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -15,7 +16,7 @@ type Item = {
 	id: number;
 	title: string;
 	subtitle: string;
-	image: string;
+	image: ImageSourcePropType;
 };
 
 type Props = {
@@ -48,7 +49,7 @@ export default function HorizontalList({ title, data }: Props) {
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				{randomizedData.map((item) => (
 					<View key={item.id} style={styles.card}>
-						<Image source={{ uri: item.image }} style={styles.image} />
+						<Image source={item.image} style={styles.image} />
 						<Text style={styles.cardTitle}>{item.title}</Text>
 						<Text style={styles.cardSubtitle}>{item.subtitle}</Text>
 					</View>
