@@ -7,10 +7,13 @@ import {
 	Image,
 	Dimensions,
 	Animated,
+	TouchableOpacity, // Added TouchableOpacity for navigation
 } from "react-native";
 import { recipes } from "../data/recipes-data";
 import { RouteProp } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 import { RootStackParamList } from "../navigation/AppNavigator";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type AllRecipesScreenProps = {
 	route: RouteProp<RootStackParamList, "AllRecipes">;
@@ -18,8 +21,9 @@ type AllRecipesScreenProps = {
 
 export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
 	const { title } = route.params || { title: "All Recipes" }; // Use default title if not provided
-	// Animations for each card
 	const animations = useRef(recipes.map(() => new Animated.Value(50))).current;
+	const navigation =
+		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	// Randomize ratings
 	const generateRandomRating = () => {
@@ -52,27 +56,40 @@ export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
 			<ScrollView contentContainerStyle={styles.contentContainer}>
 				<View style={styles.gridContainer}>
 					{randomizedRecipes.map((recipe, index) => (
-						<Animated.View
+						<TouchableOpacity
 							key={recipe.id}
-							style={[
-								styles.recipeCard,
-								{ transform: [{ translateY: animations[index] }] },
-							]}
+							onPress={() =>
+								navigation.navigate("Details", {
+									id: recipe.id,
+									title: recipe.title,
+									subtitle: recipe.subtitle,
+									image: recipe.image,
+									rating: recipe.rating,
+									reviews: recipe.reviews,
+								})
+							}
 						>
-							<Image source={recipe.image} style={styles.recipeImage} />
-							<View style={styles.recipeInfo}>
-								<Text style={styles.recipeTitle}>{recipe.title}</Text>
-								<Text style={styles.recipeSubtitle}>{recipe.subtitle}</Text>
-								<View style={styles.ratingContainer}>
-									<Text style={styles.recipeRating}>
-										⭐ {recipe.rating}
-										<Text style={styles.recipeRatingCount}>
-											({recipe.reviews} reviews)
+							<Animated.View
+								style={[
+									styles.recipeCard,
+									{ transform: [{ translateY: animations[index] }] },
+								]}
+							>
+								<Image source={recipe.image} style={styles.recipeImage} />
+								<View style={styles.recipeInfo}>
+									<Text style={styles.recipeTitle}>{recipe.title}</Text>
+									<Text style={styles.recipeSubtitle}>{recipe.subtitle}</Text>
+									<View style={styles.ratingContainer}>
+										<Text style={styles.recipeRating}>
+											⭐ {recipe.rating}
+											<Text style={styles.recipeRatingCount}>
+												({recipe.reviews} reviews)
+											</Text>
 										</Text>
-									</Text>
+									</View>
 								</View>
-							</View>
-						</Animated.View>
+							</Animated.View>
+						</TouchableOpacity>
 					))}
 				</View>
 			</ScrollView>

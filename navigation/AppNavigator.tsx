@@ -13,12 +13,21 @@ import Layout from "../layouts/Layout";
 
 export type RootStackParamList = {
 	Home: undefined;
-	Details: undefined;
+
 	AllCategories: undefined;
 	AllRecipes: { title?: string } | undefined;
 	Search: undefined;
 	Bookmark: undefined;
 	Profile: undefined;
+
+	Details: {
+		id: number;
+		title: string;
+		subtitle: string;
+		image: any; // Replace `any` with appropriate type if needed
+		rating: string;
+		reviews: number;
+	};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -40,9 +49,9 @@ export default function AppNavigator() {
 				{/* Details Screen */}
 				<Stack.Screen
 					name="Details"
-					children={() => (
+					children={(props) => (
 						<Layout>
-							<DetailsScreen />
+							<DetailsScreen {...props} />
 						</Layout>
 					)}
 				/>
