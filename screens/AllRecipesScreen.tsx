@@ -59,10 +59,7 @@ export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
 								{ transform: [{ translateY: animations[index] }] },
 							]}
 						>
-							<Image
-								source={{ uri: recipe.image }}
-								style={styles.recipeImage}
-							/>
+							<Image source={recipe.image} style={styles.recipeImage} />
 							<View style={styles.recipeInfo}>
 								<Text style={styles.recipeTitle}>{recipe.title}</Text>
 								<Text style={styles.recipeSubtitle}>{recipe.subtitle}</Text>
