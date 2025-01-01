@@ -58,7 +58,7 @@ export default function GridList({ title, data }: Props) {
 					<View style={styles.overlayContainer}>
 						<Image source={randomImages[2]?.image} style={styles.smallImage} />
 						<View style={styles.overlay}>
-							<Text style={styles.overlayText}>{data.length}+ Recipes</Text>
+							<Text style={styles.overlayText}>{data.length - 3}+ Recipes</Text>
 						</View>
 					</View>
 				</View>
