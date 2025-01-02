@@ -20,10 +20,50 @@ export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
 		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	if (iscategory) {
-		// If no recipes match the category, show a placeholder message
+		// make a perfect category filter here
+		const categoryRecipes = recipes.filter((recipe) =>
+			recipe.category.some(
+				(cat) => cat.name.toLowerCase() === title?.toLowerCase()
+			)
+		);
+
 		return (
 			<View style={styles.screenContainer}>
-				<Text>এখানে কাজ কোর্টে হবে</Text>
+				<ScrollView contentContainerStyle={styles.contentContainer}>
+					<View style={styles.gridContainer}>
+						{categoryRecipes.map((recipe) => (
+							<TouchableOpacity
+								key={recipe.id}
+								onPress={() =>
+									navigation.navigate("Details", {
+										id: recipe.id,
+										title: recipe.title,
+										subtitle: recipe.subtitle,
+										image: recipe.image,
+										rating: recipe.rating,
+										reviews: recipe.reviews,
+									})
+								}
+							>
+								<View style={styles.recipeCard}>
+									<Image source={recipe.image} style={styles.recipeImage} />
+									<View style={styles.recipeInfo}>
+										<Text style={styles.recipeTitle}>{recipe.title}</Text>
+										<Text style={styles.recipeSubtitle}>{recipe.subtitle}</Text>
+										<View style={styles.ratingContainer}>
+											<Text style={styles.recipeRating}>
+												⭐ {recipe.rating}
+												<Text style={styles.recipeRatingCount}>
+													({recipe.reviews} reviews)
+												</Text>
+											</Text>
+										</View>
+									</View>
+								</View>
+							</TouchableOpacity>
+						))}
+					</View>
+				</ScrollView>
 			</View>
 		);
 	}
