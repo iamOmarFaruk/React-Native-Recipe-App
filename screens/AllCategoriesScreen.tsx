@@ -45,7 +45,10 @@ export default function AllCategoriesScreen() {
 						<TouchableOpacity
 							key={category.id}
 							onPress={() =>
-								navigation.navigate("AllRecipes", { title: category.name })
+								navigation.navigate("AllRecipes", {
+									title: category.name,
+									iscategory: true,
+								})
 							}
 						>
 							<Animated.View

@@ -33,7 +33,10 @@ export default function CategoriesComponent() {
 						key={category.id}
 						style={styles.category}
 						onPress={() =>
-							navigation.navigate("AllRecipes", { title: category.name })
+							navigation.navigate("AllRecipes", {
+								title: category.name,
+								iscategory: true,
+							})
 						}
 					>
 						<Image source={category.image} style={styles.image} />

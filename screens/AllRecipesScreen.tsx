@@ -13,9 +13,20 @@ type AllRecipesScreenProps = {
 };
 
 export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
-	const { title } = route.params || { title: "All Recipes" };
+	const { title, iscategory = false } = route.params || {
+		title: "All Recipes",
+	};
 	const navigation =
 		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+	if (iscategory) {
+		// If no recipes match the category, show a placeholder message
+		return (
+			<View style={styles.screenContainer}>
+				<Text>এখানে কাজ কোর্টে হবে</Text>
+			</View>
+		);
+	}
 
 	return (
 		<View style={styles.screenContainer}>
