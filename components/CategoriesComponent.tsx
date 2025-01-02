@@ -29,10 +29,16 @@ export default function CategoriesComponent() {
 
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				{categories.map((category) => (
-					<View key={category.id} style={styles.category}>
+					<TouchableOpacity
+						key={category.id}
+						style={styles.category}
+						onPress={() =>
+							navigation.navigate("AllRecipes", { title: category.name })
+						}
+					>
 						<Image source={category.image} style={styles.image} />
 						<Text style={styles.categoryName}>{category.name}</Text>
-					</View>
+					</TouchableOpacity>
 				))}
 			</ScrollView>
 		</View>
