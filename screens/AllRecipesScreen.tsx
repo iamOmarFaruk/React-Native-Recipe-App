@@ -1,11 +1,12 @@
 import React from "react";
 import { ScrollView, Text, View, Image, TouchableOpacity } from "react-native";
-import { recipes } from "../data/recipes-data";
+
 import { RouteProp } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppNavigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import styles from "../styles/AllRecipesScreenStyles";
+import { recipes } from "../data/recipes-data";
 
 type AllRecipesScreenProps = {
 	route: RouteProp<RootStackParamList, "AllRecipes">;
