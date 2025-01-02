@@ -15,7 +15,8 @@ export type RootStackParamList = {
 	Home: undefined;
 
 	AllCategories: undefined;
-	AllRecipes: { title?: string } | undefined;
+
+	AllRecipes: { title?: string; iscategory?: boolean } | undefined;
 	Search: undefined;
 	Bookmark: undefined;
 	Profile: undefined;
