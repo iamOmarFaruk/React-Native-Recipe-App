@@ -6,16 +6,22 @@ import {
 	View,
 	Dimensions,
 	Animated,
+	TouchableOpacity,
 } from "react-native";
-
 import { Image } from "expo-image";
 import { categories } from "../data/categories-data";
 import { getRandomColor } from "../data/colors";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/AppNavigator";
 
 export default function AllCategoriesScreen() {
 	const animations = useRef(
 		categories.map(() => new Animated.Value(50))
 	).current; // Initial Y offset for each card
+
+	const navigation =
+		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
 	// Trigger animations on component mount
 	useEffect(() => {
@@ -36,19 +42,25 @@ export default function AllCategoriesScreen() {
 			<ScrollView contentContainerStyle={styles.contentContainer}>
 				<View style={styles.gridContainer}>
 					{categories.map((category, index) => (
-						<Animated.View
+						<TouchableOpacity
 							key={category.id}
-							style={[
-								styles.categoryCard,
-								{
-									backgroundColor: getRandomColor(),
-									transform: [{ translateY: animations[index] }], // Slide-up animation
-								},
-							]}
+							onPress={() =>
+								navigation.navigate("AllRecipes", { title: category.name })
+							}
 						>
-							<Image source={category.image} style={styles.categoryImage} />
-							<Text style={styles.categoryName}>{category.name}</Text>
-						</Animated.View>
+							<Animated.View
+								style={[
+									styles.categoryCard,
+									{
+										backgroundColor: getRandomColor(),
+										transform: [{ translateY: animations[index] }], // Slide-up animation
+									},
+								]}
+							>
+								<Image source={category.image} style={styles.categoryImage} />
+								<Text style={styles.categoryName}>{category.name}</Text>
+							</Animated.View>
+						</TouchableOpacity>
 					))}
 				</View>
 			</ScrollView>
