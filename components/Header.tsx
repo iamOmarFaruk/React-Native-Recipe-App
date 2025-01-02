@@ -3,12 +3,25 @@ import { View, Text, StyleSheet, Image } from "react-native";
 // import { Image } from "expo-image";
 
 export default function Header() {
+	// Function to determine greeting based on current time
+	const getGreeting = () => {
+		const currentHour = new Date().getHours();
+		if (currentHour < 12) {
+			return "Good Morning";
+		} else if (currentHour < 18) {
+			return "Good Afternoon";
+		} else {
+			return "Good Evening";
+		}
+	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.textContainer}>
-				<Text style={styles.greeting}>Hello, Omar</Text>
+				<Text style={styles.greeting}>{getGreeting()}, Omar</Text>
 				<Text style={styles.heading}>What would you like to cook today?</Text>
 			</View>
+
 			<View style={styles.imageContainer}>
 				<Image
 					source={require("../assets/images/profile.jpeg")}
