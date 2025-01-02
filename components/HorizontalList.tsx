@@ -17,6 +17,8 @@ type Item = {
 	title: string;
 	subtitle: string;
 	image: ImageSourcePropType;
+	rating: string;
+	reviews: number;
 };
 
 type Props = {
@@ -57,8 +59,8 @@ export default function HorizontalList({ title, data }: Props) {
 								title: item.title,
 								subtitle: item.subtitle,
 								image: item.image,
-								rating: "4.5", // ডিফল্ট রেটিং বা ডাইনামিক ডেটা যোগ করো
-								reviews: 1000, // ডিফল্ট রিভিউ বা ডাইনামিক ডেটা যোগ করো
+								rating: item.rating,
+								reviews: item.reviews,
 							})
 						}
 					>
