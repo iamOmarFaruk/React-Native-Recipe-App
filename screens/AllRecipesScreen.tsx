@@ -22,9 +22,7 @@ export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
 	if (iscategory) {
 		// make a perfect category filter here
 		const categoryRecipes = recipes.filter((recipe) =>
-			recipe.category.some(
-				(cat) => cat.name.toLowerCase() === title?.toLowerCase()
-			)
+			recipe.category.some((cat) => cat.toLowerCase() === title?.toLowerCase())
 		);
 
 		return (
