@@ -1,8 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-// import { Image } from "expo-image";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/AppNavigator";
 
 export default function Header() {
+	const navigation =
+		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
 	// Function to determine greeting based on current time
 	const getGreeting = () => {
 		const currentHour = new Date().getHours();
@@ -22,12 +27,17 @@ export default function Header() {
 				<Text style={styles.heading}>What would you like to cook today?</Text>
 			</View>
 
-			<View style={styles.imageContainer}>
+			{/* Profile Image with Navigation */}
+			<TouchableOpacity
+				onPress={() => navigation.navigate("Profile")}
+				activeOpacity={0.7}
+				style={styles.imageContainer}
+			>
 				<Image
 					source={require("../assets/images/profile.jpeg")}
 					style={styles.profileImage}
 				/>
-			</View>
+			</TouchableOpacity>
 		</View>
 	);
 }
