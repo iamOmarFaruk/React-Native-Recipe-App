@@ -75,7 +75,7 @@ export default function DetailsScreen({
 					{ useNativeDriver: false }
 				)}
 				scrollEventThrottle={16}
-				showsVerticalScrollIndicator={false}
+				showsVerticalScrollIndicator={true}
 			>
 				<Text style={styles.title}>{title || "No Title"}</Text>
 				<Text style={styles.subtitle}>By {subtitle || "Unknown"}</Text>
@@ -192,5 +192,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: "#444",
 		lineHeight: 22,
+		zIndex: 2,
 	},
 });
