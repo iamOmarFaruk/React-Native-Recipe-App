@@ -104,4 +104,95 @@ export const recipes = [
 		reviews: 250,
 		category: getCategoryNames([20, 7]), // Smoothies, Healthy
 	},
+
+	{
+		id: 11,
+		title: "Garlic Bread",
+		subtitle: "By Amy Foster",
+		image: require("../assets/images/recipes/Garlic-Bread.webp"),
+		rating: "4.4",
+		reviews: 180,
+		category: getCategoryNames([2, 14]), // Dinner, Italian
+	},
+	{
+		id: 12,
+		title: "Vegetable Stir Fry",
+		subtitle: "By Michael Scott",
+		image: require("../assets/images/recipes/free-photo-of-roasted-fish-and-potatoes-served-on-tray-overhead.jpeg"),
+		rating: "4.5",
+		reviews: 210,
+		category: getCategoryNames([2, 15, 7]), // Dinner, Asian, Healthy
+	},
+	{
+		id: 13,
+		title: "Beef Steak",
+		subtitle: "By Robert Brown",
+		image: require("../assets/images/recipes/pexels-photo-8696466.jpeg"),
+		rating: "4.7",
+		reviews: 340,
+		category: getCategoryNames([13, 2]), // Grilled Dishes, Dinner
+	},
+	{
+		id: 14,
+		title: "Shrimp Scampi",
+		subtitle: "By Patricia Johnson",
+		image: require("../assets/images/recipes/pexels-photo-8697543.jpeg"),
+		rating: "4.6",
+		reviews: 280,
+		category: getCategoryNames([12, 14]), // Seafood, Italian
+	},
+	{
+		id: 15,
+		title: "Veggie Pizza",
+		subtitle: "By Christopher Davis",
+		image: require("../assets/images/recipes/pexels-photo-11111603.webp"),
+		rating: "4.5",
+		reviews: 200,
+		category: getCategoryNames([14, 19]), // Italian, Salads
+	},
+	{
+		id: 16,
+		title: "Berry Parfait",
+		subtitle: "By Linda Miller",
+		image: require("../assets/images/recipes/pexels-photo-14122621.webp"),
+		rating: "4.7",
+		reviews: 260,
+		category: getCategoryNames([3, 20]), // Dessert, Smoothies
+	},
+	{
+		id: 17,
+		title: "Fried Rice",
+		subtitle: "By Daniel Wilson",
+		image: require("../assets/images/recipes/pexels-photo-7449194.webp"),
+		rating: "4.5",
+		reviews: 220,
+		category: getCategoryNames([15, 2]), // Asian, Dinner
+	},
+	{
+		id: 18,
+		title: "Cheesecake",
+		subtitle: "By Mary Garcia",
+		image: require("../assets/images/recipes/pexels-photo-4669249.jpeg"),
+		rating: "4.8",
+		reviews: 300,
+		category: getCategoryNames([3]), // Dessert
+	},
+	{
+		id: 19,
+		title: "Tacos",
+		subtitle: "By Matthew Martinez",
+		image: require("../assets/images/recipes/free-photo-of-delicious-mexican-tacos-platter-in-mexico-city.jpeg"),
+		rating: "4.6",
+		reviews: 240,
+		category: getCategoryNames([17, 28]), // Mexican, Street Food
+	},
+	{
+		id: 20,
+		title: "Lemon Tart",
+		subtitle: "By Sophia Anderson",
+		image: require("../assets/images/recipes/pexels-photo-8743939.jpeg"),
+		rating: "4.7",
+		reviews: 280,
+		category: getCategoryNames([3, 29]), // Dessert, Comfort Food
+	},
 ];
