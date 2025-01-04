@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
 	View,
 	Text,
@@ -6,9 +6,10 @@ import {
 	Image,
 	TouchableOpacity,
 	ScrollView,
+	Animated,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialIcons } from "@expo/vector-icons"; // Using Expo's MaterialIcons
+import { MaterialIcons } from "@expo/vector-icons";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigator";
@@ -24,21 +25,51 @@ export default function DetailsScreen({
 }: DetailsScreenProps) {
 	const { id, title, subtitle, image, rating, reviews } = route.params;
 
+	// Animated value
+	const scrollY = useRef(new Animated.Value(0)).current;
+
+	const imageHeight = scrollY.interpolate({
+		inputRange: [0, 150], // Adjust this range for the scroll effect
+		outputRange: [300, 50], // From full height to minimum height
+		extrapolate: "clamp",
+	});
+
+	const imageScale = scrollY.interpolate({
+		inputRange: [0, 150],
+		outputRange: [1, 1.5], // Zoom in from 1x to 1.5x
+		extrapolate: "clamp",
+	});
+
 	return (
 		<SafeAreaView style={styles.safeArea}>
 			{/* Fullscreen Image Section */}
-			<View style={styles.imageContainer}>
-				<Image source={image} style={styles.image} />
+			<Animated.View
+				style={[
+					styles.imageContainer,
+					{ height: imageHeight }, // Dynamic height based on scroll
+				]}
+			>
+				<Animated.Image
+					source={image}
+					style={[styles.image, { transform: [{ scale: imageScale }] }]} // Zoom in effect
+				/>
 				<TouchableOpacity
 					style={styles.backButton}
 					onPress={() => navigation.goBack()}
 				>
 					<MaterialIcons name="arrow-back" size={24} color="#fff" />
 				</TouchableOpacity>
-			</View>
+			</Animated.View>
 
 			{/* Details Section */}
-			<ScrollView style={styles.detailsContainer}>
+			<Animated.ScrollView
+				style={styles.detailsContainer}
+				onScroll={Animated.event(
+					[{ nativeEvent: { contentOffset: { y: scrollY } } }],
+					{ useNativeDriver: false }
+				)}
+				scrollEventThrottle={16} // Ensures smooth animation
+			>
 				<Text style={styles.title}>{title || "No Title"}</Text>
 				<Text style={styles.subtitle}>By {subtitle || "Unknown"}</Text>
 
@@ -57,9 +88,32 @@ export default function DetailsScreen({
 					sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident
 					similique accusantium nemo autem. Veritatis obcaecati tenetur iure
 					eius earum ut molestias architecto voluptate aliquam nihil, eveniet
-					aliquid culpa officia aut! Impedit sit sunt...
+					aliquid culpa officia aut! Impedit sit sunt... Maxime mollitia,
+					molestiae quas vel sint commodi repudiandae consequuntur voluptatum
+					laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto
+					fuga praesentium optio, eaque rerum! Provident similique accusantium
+					nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias
+					architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut!
+					Impedit sit sunt... Maxime mollitia, molestiae quas vel sint commodi
+					repudiandae consequuntur voluptatum laborum numquam blanditiis harum
+					quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque
+					rerum! Provident similique accusantium nemo autem. Veritatis obcaecati
+					tenetur iure eius earum ut molestias architecto voluptate aliquam
+					nihil, eveniet aliquid culpa officia aut! Impedit sit sunt... Maxime
+					mollitia, molestiae quas vel sint commodi repudiandae consequuntur
+					voluptatum laborum numquam blanditiis harum quisquam eius sed odit
+					fugiat iusto fuga praesentium optio, eaque rerum! Provident similique
+					accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut
+					molestias architecto voluptate aliquam nihil, eveniet aliquid culpa
+					officia aut! Impedit sit sunt... Maxime mollitia, molestiae quas vel
+					sint commodi repudiandae consequuntur voluptatum laborum numquam
+					blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+					optio, eaque rerum! Provident similique accusantium nemo autem.
+					Veritatis obcaecati tenetur iure eius earum ut molestias architecto
+					voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit
+					sit sunt...
 				</Text>
-			</ScrollView>
+			</Animated.ScrollView>
 		</SafeAreaView>
 	);
 }
@@ -68,7 +122,8 @@ const styles = StyleSheet.create({
 	safeArea: { flex: 1, backgroundColor: "#fff" },
 	imageContainer: {
 		position: "relative",
-		height: 300,
+		backgroundColor: "#000",
+		overflow: "hidden",
 	},
 	image: {
 		width: "100%",
@@ -84,7 +139,7 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 	},
 	detailsContainer: {
-		padding: 30,
+		padding: 50,
 		backgroundColor: "#fff",
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
