@@ -86,16 +86,7 @@ export default function GridList({ title, data }: Props) {
 					{/* link to this second item from randomly selected item end */}
 
 					<TouchableOpacity
-						onPress={() =>
-							navigation.navigate("Details", {
-								id: randomImages[2]?.id,
-								title: randomImages[2]?.title,
-								subtitle: randomImages[2]?.subtitle,
-								image: randomImages[2]?.image,
-								rating: randomImages[2]?.rating,
-								reviews: randomImages[2]?.reviews,
-							})
-						}
+						onPress={() => navigation.navigate("AllRecipes", { title })}
 					>
 						{/* Bottom Image with Overlay */}
 						<View style={styles.overlayContainer}>
