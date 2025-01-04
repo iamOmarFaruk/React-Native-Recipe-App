@@ -19,6 +19,7 @@ const profileScreenStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		marginBottom: 20,
+		marginTop: 10,
 	},
 	profileImageContainer: {
 		position: "relative",
@@ -48,7 +49,7 @@ const profileScreenStyles = StyleSheet.create({
 	},
 	profileTextContainer: {
 		flex: 1,
-        marginLeft: 15,
+		marginLeft: 15,
 	},
 	profileName: {
 		fontSize: 20,

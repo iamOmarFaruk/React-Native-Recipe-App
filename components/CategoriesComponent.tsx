@@ -76,11 +76,9 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		paddingHorizontal: 10,
 		borderRadius: 12,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 5,
 		elevation: 3,
+		borderColor: "#f0f0f0",
+		borderWidth: 1,
 	},
 	image: {
 		width: 60,
