@@ -84,11 +84,11 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 	},
 	detailsContainer: {
-		padding: 20,
+		padding: 30,
 		backgroundColor: "#fff",
-		borderTopLeftRadius: 20,
-		borderTopRightRadius: 20,
-		marginTop: -20,
+		borderTopLeftRadius: 30,
+		borderTopRightRadius: 30,
+		marginTop: -50,
 	},
 	title: {
 		fontSize: 24,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
 	},
 	description: {
 		fontSize: 16,
-		color: "#555",
+		color: "#444",
 		lineHeight: 22,
 	},
 });
