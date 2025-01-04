@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	Image,
 	TouchableOpacity,
-	ScrollView,
 	Animated,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,29 +28,30 @@ export default function DetailsScreen({
 	const scrollY = useRef(new Animated.Value(0)).current;
 
 	const imageHeight = scrollY.interpolate({
-		inputRange: [0, 150], // Adjust this range for the scroll effect
-		outputRange: [300, 50], // From full height to minimum height
+		inputRange: [0, 150],
+		outputRange: [300, 50],
 		extrapolate: "clamp",
 	});
 
 	const imageScale = scrollY.interpolate({
 		inputRange: [0, 150],
-		outputRange: [1, 1.5], // Zoom in from 1x to 1.5x
+		outputRange: [1, 1.5],
+		extrapolate: "clamp",
+	});
+
+	const borderRadius = scrollY.interpolate({
+		inputRange: [0, 150],
+		outputRange: [30, 0], // From rounded to flat
 		extrapolate: "clamp",
 	});
 
 	return (
 		<SafeAreaView style={styles.safeArea}>
 			{/* Fullscreen Image Section */}
-			<Animated.View
-				style={[
-					styles.imageContainer,
-					{ height: imageHeight }, // Dynamic height based on scroll
-				]}
-			>
+			<Animated.View style={[styles.imageContainer, { height: imageHeight }]}>
 				<Animated.Image
 					source={image}
-					style={[styles.image, { transform: [{ scale: imageScale }] }]} // Zoom in effect
+					style={[styles.image, { transform: [{ scale: imageScale }] }]}
 				/>
 				<TouchableOpacity
 					style={styles.backButton}
@@ -63,12 +63,19 @@ export default function DetailsScreen({
 
 			{/* Details Section */}
 			<Animated.ScrollView
-				style={styles.detailsContainer}
+				style={[
+					styles.detailsContainer,
+					{
+						borderTopLeftRadius: borderRadius,
+						borderTopRightRadius: borderRadius,
+					},
+				]}
 				onScroll={Animated.event(
 					[{ nativeEvent: { contentOffset: { y: scrollY } } }],
 					{ useNativeDriver: false }
 				)}
-				scrollEventThrottle={16} // Ensures smooth animation
+				scrollEventThrottle={10}
+				showsVerticalScrollIndicator={false}
 			>
 				<Text style={styles.title}>{title || "No Title"}</Text>
 				<Text style={styles.subtitle}>By {subtitle || "Unknown"}</Text>
@@ -83,35 +90,41 @@ export default function DetailsScreen({
 				{/* Description Section */}
 				<Text style={styles.process}>Process:</Text>
 				<Text style={styles.description}>
-					Maxime mollitia, molestiae quas vel sint commodi repudiandae
-					consequuntur voluptatum laborum numquam blanditiis harum quisquam eius
-					sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident
-					similique accusantium nemo autem. Veritatis obcaecati tenetur iure
-					eius earum ut molestias architecto voluptate aliquam nihil, eveniet
-					aliquid culpa officia aut! Impedit sit sunt... Maxime mollitia,
-					molestiae quas vel sint commodi repudiandae consequuntur voluptatum
-					laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto
-					fuga praesentium optio, eaque rerum! Provident similique accusantium
-					nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias
-					architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut!
-					Impedit sit sunt... Maxime mollitia, molestiae quas vel sint commodi
-					repudiandae consequuntur voluptatum laborum numquam blanditiis harum
-					quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque
-					rerum! Provident similique accusantium nemo autem. Veritatis obcaecati
-					tenetur iure eius earum ut molestias architecto voluptate aliquam
-					nihil, eveniet aliquid culpa officia aut! Impedit sit sunt... Maxime
-					mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-					voluptatum laborum numquam blanditiis harum quisquam eius sed odit
-					fugiat iusto fuga praesentium optio, eaque rerum! Provident similique
-					accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut
-					molestias architecto voluptate aliquam nihil, eveniet aliquid culpa
-					officia aut! Impedit sit sunt... Maxime mollitia, molestiae quas vel
-					sint commodi repudiandae consequuntur voluptatum laborum numquam
-					blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-					optio, eaque rerum! Provident similique accusantium nemo autem.
-					Veritatis obcaecati tenetur iure eius earum ut molestias architecto
-					voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit
-					sit sunt...
+					{/* Long description text */}
+					inima deleniti quae nobis odit, porro tempora repudiandae.Lorem ipsum
+					dolor sit amet consectetur adipisicing elit. Doloribus excepturi
+					nihil, cupiditate nam aliquam, odio pariatur facilis aspernatur,
+					deserunt dolores commodi id culpa inventore sapiente! Est nobis
+					expedita fuga impedit ipsum commodi reprehenderit obcaecati excepturi
+					quae amet. Repellendus atque animi aliquid ab? Ratione est quos
+					explicabo mollitia magni optio placeat rem, cumque quo molestiae
+					molestias pariatur, alias laboriosam commodi? Blanditiis itaque soluta
+					delectus, non, excepturi asperiores nisi aperiam quo aut officia
+					maiores, voluptatem cum vero hic quisquam architecto sequi mollitia!
+					Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
+					consequatur? Ex m inima deleniti quae nobis odit, porro tempora
+					repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Doloribus excepturi nihil, cupiditate nam aliquam, odio pariatur
+					facilis aspernatur, deserunt dolores commodi id culpa inventore
+					sapiente! Est nobis expedita fuga impedit ipsum commodi reprehenderit
+					obcaecati excepturi quae amet. Repellendus atque animi aliquid ab?
+					Ratione est quos explicabo mollitia magni optio placeat rem, cumque
+					quo molestiae molestias pariatur, alias laboriosam commodi? Blanditiis
+					itaque soluta delectus, non, excepturi asperiores nisi aperiam quo aut
+					officia maiores, voluptatem cum vero hic quisquam architecto sequi
+					mollitia! Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
+					consequatur? Ex m inima deleniti quae nobis odit, porro tempora
+					repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Doloribus excepturi nihil, cupiditate nam aliquam, odio pariatur
+					facilis aspernatur, deserunt dolores commodi id culpa inventore
+					sapiente! Est nobis expedita fuga impedit ipsum commodi reprehenderit
+					obcaecati excepturi quae amet. Repellendus atque animi aliquid ab?
+					Ratione est quos explicabo mollitia magni optio placeat rem, cumque
+					quo molestiae molestias pariatur, alias laboriosam commodi? Blanditiis
+					itaque soluta delectus, non, excepturi asperiores nisi aperiam quo aut
+					officia maiores, voluptatem cum vero hic quisquam architecto sequi
+					mollitia! Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
+					consequatur? Ex m
 				</Text>
 			</Animated.ScrollView>
 		</SafeAreaView>
@@ -139,10 +152,8 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 	},
 	detailsContainer: {
-		padding: 50,
+		padding: 30,
 		backgroundColor: "#fff",
-		borderTopLeftRadius: 30,
-		borderTopRightRadius: 30,
 		marginTop: -50,
 	},
 	title: {

@@ -33,10 +33,11 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		borderRadius: 25,
 		paddingHorizontal: 16,
-		paddingVertical: 20,
+		paddingVertical: 8,
 		marginHorizontal: 20,
 		borderWidth: 1,
 		borderColor: "#ccc",
+		minHeight: 50,
 	},
 	icon: {
 		marginRight: 10,

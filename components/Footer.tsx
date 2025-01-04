@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		alignItems: "center",
-		height: 70,
+		height: 80,
 		borderTopWidth: 1,
 		borderTopColor: "#ddd",
 		backgroundColor: "#fff",
-		marginBottom: 20,
+		paddingBottom: 20,
 	},
 	footerButton: {
 		alignItems: "center",
