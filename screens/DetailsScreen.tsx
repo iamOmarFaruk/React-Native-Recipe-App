@@ -74,7 +74,7 @@ export default function DetailsScreen({
 					[{ nativeEvent: { contentOffset: { y: scrollY } } }],
 					{ useNativeDriver: false }
 				)}
-				scrollEventThrottle={10}
+				scrollEventThrottle={16}
 				showsVerticalScrollIndicator={false}
 			>
 				<Text style={styles.title}>{title || "No Title"}</Text>
