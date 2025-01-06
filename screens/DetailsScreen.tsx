@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	Image,
-	TouchableOpacity,
-	Animated,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import Animated, {
+	useSharedValue,
+	useAnimatedStyle,
+	withSpring,
+	useAnimatedScrollHandler,
+} from "react-native-reanimated";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import { RouteProp } from "@react-navigation/native";
@@ -24,174 +24,137 @@ export default function DetailsScreen({
 }: DetailsScreenProps) {
 	const { id, title, subtitle, image, rating, reviews } = route.params;
 
-	// Animated value
-	const scrollY = useRef(new Animated.Value(0)).current;
+	// ============ Animation Stuff ==============
+	const scrollY = useSharedValue(0);
 
-	const imageHeight = scrollY.interpolate({
-		inputRange: [0, 150],
-		outputRange: [300, 50],
-		extrapolate: "clamp",
+	const scrollHandler = useAnimatedScrollHandler((event) => {
+		scrollY.value = event.contentOffset.y;
 	});
 
-	const imageScale = scrollY.interpolate({
-		inputRange: [0, 150],
-		outputRange: [1, 1.5],
-		extrapolate: "clamp",
-	});
-
-	const borderRadius = scrollY.interpolate({
-		inputRange: [0, 150],
-		outputRange: [30, 0], // From rounded to flat
-		extrapolate: "clamp",
+	const animatedWrapperStyle = useAnimatedStyle(() => {
+		const scale = 1 + scrollY.value / 300;
+		return {
+			transform: [{ scale: Math.min(scale, 1.5) }],
+		};
 	});
 
 	return (
-		<SafeAreaView style={styles.safeArea}>
+		<View style={styles.safeArea}>
 			{/* Fullscreen Image Section */}
-			<Animated.View style={[styles.imageContainer, { height: imageHeight }]}>
-				<Animated.Image
-					source={image}
-					style={[styles.image, { transform: [{ scale: imageScale }] }]}
-				/>
-				<TouchableOpacity
-					style={styles.backButton}
-					onPress={() => navigation.goBack()}
-				>
-					<MaterialIcons name="arrow-back" size={24} color="#fff" />
-				</TouchableOpacity>
+			<Animated.View style={[styles.imagewrapper, animatedWrapperStyle]}>
+				<Animated.Image source={image} style={styles.headerimage} />
 			</Animated.View>
 
 			{/* Details Section */}
 			<Animated.ScrollView
-				style={[
-					styles.detailsContainer,
-					{
-						borderTopLeftRadius: borderRadius,
-						borderTopRightRadius: borderRadius,
-					},
-				]}
-				onScroll={Animated.event(
-					[{ nativeEvent: { contentOffset: { y: scrollY } } }],
-					{ useNativeDriver: false }
-				)}
+				onScroll={scrollHandler}
 				scrollEventThrottle={16}
-				showsVerticalScrollIndicator={true}
+				showsVerticalScrollIndicator={false}
 			>
-				<Text style={styles.title}>{title || "No Title"}</Text>
-				<Text style={styles.subtitle}>By {subtitle || "Unknown"}</Text>
-
-				<View style={styles.ratingContainer}>
-					<Text style={styles.rating}>⭐ {rating || "4.5"}</Text>
-					<Text style={styles.reviews}>
-						{reviews?.toLocaleString() || "1,000"} reviews
+				<View style={styles.Contentwrapper}>
+					<Text>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
+						mollitia, molestiae quas vel sint commodi repudiandae consequuntur
+						voluptatum laborum numquam blanditiis harum quisquam eius sed odit
+						fugiat iusto fuga praesentium optio, eaque rerum! Provident
+						similique accusantium nemo autem. Veritatis obcaecati tenetur iure
+						eius earum ut molestias architecto voluptate aliquam nihil, eveniet
+						aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur
+						error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+						quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias
+						eos sapiente officiis modi at sunt excepturi expedita sint? Sed
+						quibusdam recusandae alias error harum maxime adipisci amet laborum.
+						Perspiciatis minima nesciunt dolorem! Officiis iure rerum voluptates
+						a cumque velit quibusdam sed amet tempora. Sit laborum ab, eius
+						fugit doloribus tenetur fugiat, temporibus enim commodi iusto libero
+						magni deleniti quod quam consequuntur! Commodi minima excepturi
+						repudiandae velit hic maxime doloremque. Quaerat provident commodi
+						consectetur veniam similique ad earum omnis ipsum saepe, voluptas,
+						hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam
+						cupiditate excepturi mollitia maiores labore suscipit quas? Nulla,
+						placeat. Voluptatem quaerat non architecto ab laudantium modi minima
+						sunt esse temporibus sint culpa, recusandae aliquam numquam totam
+						ratione voluptas quod exercitationem fuga. Possimus quis earum
+						veniam quasi aliquam eligendi, placeat qui corporis!! Lorem ipsum
+						dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+						molestiae quas vel sint commodi repudiandae consequuntur voluptatum
+						laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto
+						fuga praesentium optio, eaque rerum! Provident similique accusantium
+						nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias
+						architecto voluptate aliquam nihil, eveniet aliquid culpa officia
+						aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt
+						ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error
+						repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis
+						modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias
+						error harum maxime adipisci amet laborum. Perspiciatis minima
+						nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
+						quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus
+						tenetur fugiat, temporibus enim commodi iusto libero magni deleniti
+						quod quam consequuntur! Commodi minima excepturi repudiandae velit
+						hic maxime doloremque. Quaerat provident commodi consectetur veniam
+						similique ad earum omnis ipsum saepe, voluptas, hic voluptates
+						pariatur est explicabo fugiat, dolorum eligendi quam cupiditate
+						excepturi mollitia maiores labore suscipit quas? Nulla, placeat.
+						Voluptatem quaerat non architecto ab laudantium modi minima sunt
+						esse temporibus sint culpa, recusandae aliquam numquam totam ratione
+						voluptas quod exercitationem fuga. Possimus quis earum veniam quasi
+						aliquam eligendi, placeat qui corporis! Lorem ipsum dolor sit amet
+						consectetur adipisicing elit. Maxime mollitia, molestiae quas vel
+						sint commodi repudiandae consequuntur voluptatum laborum numquam
+						blanditiis harum quisquam eius sed odit fugiat iusto fuga
+						praesentium optio, eaque rerum! Provident similique accusantium nemo
+						autem. Veritatis obcaecati tenetur iure eius earum ut molestias
+						architecto voluptate aliquam nihil, eveniet aliquid culpa officia
+						aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt
+						ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error
+						repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis
+						modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias
+						error harum maxime adipisci amet laborum. Perspiciatis minima
+						nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
+						quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus
+						tenetur fugiat, temporibus enim commodi iusto libero magni deleniti
+						quod quam consequuntur! Commodi minima excepturi repudiandae velit
+						hic maxime doloremque. Quaerat provident commodi consectetur veniam
+						similique ad earum omnis ipsum saepe, voluptas, hic voluptates
+						pariatur est explicabo fugiat, dolorum eligendi quam cupiditate
+						excepturi mollitia maiores labore suscipit quas? Nulla, placeat.
+						Voluptatem quaerat non architecto ab laudantium modi minima sunt
+						esse temporibus sint culpa, recusandae aliquam numquam totam ratione
+						voluptas quod exercitationem fuga. Possimus quis earum veniam quasi
+						aliquam eligendi, placeat qui corporis!
 					</Text>
 				</View>
-
-				{/* Description Section */}
-				<Text style={styles.process}>Process:</Text>
-				<Text style={styles.description}>
-					{/* Long description text */}
-					inima deleniti quae nobis odit, porro tempora repudiandae.Lorem ipsum
-					dolor sit amet consectetur adipisicing elit. Doloribus excepturi
-					nihil, cupiditate nam aliquam, odio pariatur facilis aspernatur,
-					deserunt dolores commodi id culpa inventore sapiente! Est nobis
-					expedita fuga impedit ipsum commodi reprehenderit obcaecati excepturi
-					quae amet. Repellendus atque animi aliquid ab? Ratione est quos
-					explicabo mollitia magni optio placeat rem, cumque quo molestiae
-					molestias pariatur, alias laboriosam commodi? Blanditiis itaque soluta
-					delectus, non, excepturi asperiores nisi aperiam quo aut officia
-					maiores, voluptatem cum vero hic quisquam architecto sequi mollitia!
-					Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
-					consequatur? Ex m inima deleniti quae nobis odit, porro tempora
-					repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Doloribus excepturi nihil, cupiditate nam aliquam, odio pariatur
-					facilis aspernatur, deserunt dolores commodi id culpa inventore
-					sapiente! Est nobis expedita fuga impedit ipsum commodi reprehenderit
-					obcaecati excepturi quae amet. Repellendus atque animi aliquid ab?
-					Ratione est quos explicabo mollitia magni optio placeat rem, cumque
-					quo molestiae molestias pariatur, alias laboriosam commodi? Blanditiis
-					itaque soluta delectus, non, excepturi asperiores nisi aperiam quo aut
-					officia maiores, voluptatem cum vero hic quisquam architecto sequi
-					mollitia! Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
-					consequatur? Ex m inima deleniti quae nobis odit, porro tempora
-					repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Doloribus excepturi nihil, cupiditate nam aliquam, odio pariatur
-					facilis aspernatur, deserunt dolores commodi id culpa inventore
-					sapiente! Est nobis expedita fuga impedit ipsum commodi reprehenderit
-					obcaecati excepturi quae amet. Repellendus atque animi aliquid ab?
-					Ratione est quos explicabo mollitia magni optio placeat rem, cumque
-					quo molestiae molestias pariatur, alias laboriosam commodi? Blanditiis
-					itaque soluta delectus, non, excepturi asperiores nisi aperiam quo aut
-					officia maiores, voluptatem cum vero hic quisquam architecto sequi
-					mollitia! Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
-					consequatur? Ex m
-				</Text>
 			</Animated.ScrollView>
-		</SafeAreaView>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	safeArea: { flex: 1, backgroundColor: "#fff" },
-	imageContainer: {
+	safeArea: {
+		flex: 1,
 		position: "relative",
-		backgroundColor: "#000",
-		overflow: "hidden",
+		justifyContent: "center",
+		alignItems: "center",
 	},
-	image: {
-		width: "100%",
+	imagewrapper: {
+		height: 400,
+		width: "150%",
+		position: "absolute",
+		top: 0,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	headerimage: {
 		height: "100%",
+		width: "100%",
 		resizeMode: "cover",
 	},
-	backButton: {
-		position: "absolute",
-		top: 20,
-		left: 20,
-		backgroundColor: "rgba(0, 0, 0, 0.5)",
-		padding: 8,
-		borderRadius: 20,
-	},
-	detailsContainer: {
-		padding: 30,
+
+	Contentwrapper: {
+		flex: 1,
 		backgroundColor: "#fff",
-		marginTop: -50,
-	},
-	title: {
-		fontSize: 24,
-		fontWeight: "bold",
-		textAlign: "center",
-		marginBottom: 8,
-	},
-	subtitle: {
-		fontSize: 16,
-		color: "#777",
-		textAlign: "center",
-		marginBottom: 16,
-	},
-	ratingContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginBottom: 16,
-	},
-	rating: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: "#4CAF50",
-	},
-	reviews: {
-		fontSize: 14,
-		color: "#777",
-	},
-	process: {
-		fontSize: 18,
-		fontWeight: "bold",
-		marginBottom: 8,
-	},
-	description: {
-		fontSize: 16,
-		color: "#444",
-		lineHeight: 22,
-		zIndex: 2,
+		width: "100%",
+		transform: [{ translateY: 250 }], // Correct syntax for translateY
+		borderRadius: 30,
 	},
 });
