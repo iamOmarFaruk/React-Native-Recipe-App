@@ -8,10 +8,14 @@ import HorizontalList from "../components/HorizontalList";
 import GridList from "../components/GridList";
 import { recipes } from "../data/recipes-data";
 
+import Animated from "react-native-reanimated";
 export default function HomeScreen() {
 	return (
 		<SafeAreaView style={styles.safeArea}>
-			<ScrollView contentContainerStyle={styles.contentContainer}>
+			<Animated.ScrollView
+				contentContainerStyle={styles.contentContainer}
+				scrollEventThrottle={16}
+			>
 				{/* Header */}
 				<Header />
 
@@ -27,7 +31,7 @@ export default function HomeScreen() {
 				<HorizontalList title="Cooking Trends" data={recipes} />
 				{/* Recently Viewed */}
 				<GridList title="Recently Viewed" data={recipes} />
-			</ScrollView>
+			</Animated.ScrollView>
 		</SafeAreaView>
 	);
 }

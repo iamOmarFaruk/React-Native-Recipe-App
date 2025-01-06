@@ -47,81 +47,61 @@ export default function DetailsScreen({
 
 			{/* Details Section */}
 			<Animated.ScrollView
+				style={styles.Scrolltwrapper}
 				onScroll={scrollHandler}
 				scrollEventThrottle={16}
 				showsVerticalScrollIndicator={false}
 			>
 				<View style={styles.Contentwrapper}>
-					<Text>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-						mollitia, molestiae quas vel sint commodi repudiandae consequuntur
-						voluptatum laborum numquam blanditiis harum quisquam eius sed odit
-						fugiat iusto fuga praesentium optio, eaque rerum! Provident
-						similique accusantium nemo autem. Veritatis obcaecati tenetur iure
-						eius earum ut molestias architecto voluptate aliquam nihil, eveniet
-						aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur
-						error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-						quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias
-						eos sapiente officiis modi at sunt excepturi expedita sint? Sed
-						quibusdam recusandae alias error harum maxime adipisci amet laborum.
-						Perspiciatis minima nesciunt dolorem! Officiis iure rerum voluptates
-						a cumque velit quibusdam sed amet tempora. Sit laborum ab, eius
-						fugit doloribus tenetur fugiat, temporibus enim commodi iusto libero
-						magni deleniti quod quam consequuntur! Commodi minima excepturi
-						repudiandae velit hic maxime doloremque. Quaerat provident commodi
-						consectetur veniam similique ad earum omnis ipsum saepe, voluptas,
-						hic voluptates pariatur est explicabo fugiat, dolorum eligendi quam
-						cupiditate excepturi mollitia maiores labore suscipit quas? Nulla,
-						placeat. Voluptatem quaerat non architecto ab laudantium modi minima
-						sunt esse temporibus sint culpa, recusandae aliquam numquam totam
-						ratione voluptas quod exercitationem fuga. Possimus quis earum
-						veniam quasi aliquam eligendi, placeat qui corporis!! Lorem ipsum
-						dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-						molestiae quas vel sint commodi repudiandae consequuntur voluptatum
-						laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto
-						fuga praesentium optio, eaque rerum! Provident similique accusantium
-						nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias
-						architecto voluptate aliquam nihil, eveniet aliquid culpa officia
-						aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt
-						ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error
-						repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis
-						modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias
-						error harum maxime adipisci amet laborum. Perspiciatis minima
-						nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
-						quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus
-						tenetur fugiat, temporibus enim commodi iusto libero magni deleniti
-						quod quam consequuntur! Commodi minima excepturi repudiandae velit
-						hic maxime doloremque. Quaerat provident commodi consectetur veniam
-						similique ad earum omnis ipsum saepe, voluptas, hic voluptates
-						pariatur est explicabo fugiat, dolorum eligendi quam cupiditate
-						excepturi mollitia maiores labore suscipit quas? Nulla, placeat.
-						Voluptatem quaerat non architecto ab laudantium modi minima sunt
-						esse temporibus sint culpa, recusandae aliquam numquam totam ratione
-						voluptas quod exercitationem fuga. Possimus quis earum veniam quasi
-						aliquam eligendi, placeat qui corporis! Lorem ipsum dolor sit amet
-						consectetur adipisicing elit. Maxime mollitia, molestiae quas vel
-						sint commodi repudiandae consequuntur voluptatum laborum numquam
-						blanditiis harum quisquam eius sed odit fugiat iusto fuga
-						praesentium optio, eaque rerum! Provident similique accusantium nemo
-						autem. Veritatis obcaecati tenetur iure eius earum ut molestias
-						architecto voluptate aliquam nihil, eveniet aliquid culpa officia
-						aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt
-						ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error
-						repudiandae fuga? Ipsa laudantium molestias eos sapiente officiis
-						modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias
-						error harum maxime adipisci amet laborum. Perspiciatis minima
-						nesciunt dolorem! Officiis iure rerum voluptates a cumque velit
-						quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus
-						tenetur fugiat, temporibus enim commodi iusto libero magni deleniti
-						quod quam consequuntur! Commodi minima excepturi repudiandae velit
-						hic maxime doloremque. Quaerat provident commodi consectetur veniam
-						similique ad earum omnis ipsum saepe, voluptas, hic voluptates
-						pariatur est explicabo fugiat, dolorum eligendi quam cupiditate
-						excepturi mollitia maiores labore suscipit quas? Nulla, placeat.
-						Voluptatem quaerat non architecto ab laudantium modi minima sunt
-						esse temporibus sint culpa, recusandae aliquam numquam totam ratione
-						voluptas quod exercitationem fuga. Possimus quis earum veniam quasi
-						aliquam eligendi, placeat qui corporis!
+					<Text style={styles.title}>{title || "No Title"}</Text>
+					<Text style={styles.subtitle}>By {subtitle || "Unknown"}</Text>
+
+					<View style={styles.ratingContainer}>
+						<Text style={styles.rating}>⭐ {rating || "4.5"}</Text>
+						<Text style={styles.reviews}>
+							{reviews?.toLocaleString() || "1,000"} reviews
+						</Text>
+					</View>
+
+					{/* Description Section */}
+					<Text style={styles.process}>Process:</Text>
+					<Text style={styles.description}>
+						{/* Long description text */}
+						inima deleniti quae nobis odit, porro tempora repudiandae.Lorem
+						ipsum dolor sit amet consectetur adipisicing elit. Doloribus
+						excepturi nihil, cupiditate nam aliquam, odio pariatur facilis
+						aspernatur, deserunt dolores commodi id culpa inventore sapiente!
+						Est nobis expedita fuga impedit ipsum commodi reprehenderit
+						obcaecati excepturi quae amet. Repellendus atque animi aliquid ab?
+						Ratione est quos explicabo mollitia magni optio placeat rem, cumque
+						quo molestiae molestias pariatur, alias laboriosam commodi?
+						Blanditiis itaque soluta delectus, non, excepturi asperiores nisi
+						aperiam quo aut officia maiores, voluptatem cum vero hic quisquam
+						architecto sequi mollitia! Autem at ipsum veritatis quo soluta ab,
+						accusamus culpa qui consequatur? Ex m inima deleniti quae nobis
+						odit, porro tempora repudiandae.Lorem ipsum dolor sit amet
+						consectetur adipisicing elit. Doloribus excepturi nihil, cupiditate
+						nam aliquam, odio pariatur facilis aspernatur, deserunt dolores
+						commodi id culpa inventore sapiente! Est nobis expedita fuga impedit
+						ipsum commodi reprehenderit obcaecati excepturi quae amet.
+						Repellendus atque animi aliquid ab? Ratione est quos explicabo
+						mollitia magni optio placeat rem, cumque quo molestiae molestias
+						pariatur, alias laboriosam commodi? Blanditiis itaque soluta
+						delectus, non, excepturi asperiores nisi aperiam quo aut officia
+						maiores, voluptatem cum vero hic quisquam architecto sequi mollitia!
+						Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
+						consequatur? Ex m inima deleniti quae nobis odit, porro tempora
+						repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						Doloribus excepturi nihil, cupiditate nam aliquam, odio pariatur
+						facilis aspernatur, deserunt dolores commodi id culpa inventore
+						sapiente! Est nobis expedita fuga impedit ipsum commodi
+						reprehenderit obcaecati excepturi quae amet. Repellendus atque animi
+						aliquid ab? Ratione est quos explicabo mollitia magni optio placeat
+						rem, cumque quo molestiae molestias pariatur, alias laboriosam
+						commodi? Blanditiis itaque soluta delectus, non, excepturi
+						asperiores nisi aperiam quo aut officia maiores, voluptatem cum vero
+						hic quisquam architecto sequi mollitia! Autem at ipsum veritatis quo
+						soluta ab, accusamus culpa qui consequatur? Ex m
 					</Text>
 				</View>
 			</Animated.ScrollView>
@@ -149,12 +129,56 @@ const styles = StyleSheet.create({
 		width: "100%",
 		resizeMode: "cover",
 	},
-
+	Scrolltwrapper: {
+		paddingBottom: 30,
+	},
 	Contentwrapper: {
 		flex: 1,
 		backgroundColor: "#fff",
 		width: "100%",
-		transform: [{ translateY: 250 }], // Correct syntax for translateY
+		transform: [{ translateY: 300 }], // Correct syntax for translateY
 		borderRadius: 30,
+		paddingHorizontal: 20,
+		paddingVertical: 30,
+		paddingBottom: 350,
+	},
+
+	title: {
+		fontSize: 24,
+		fontWeight: "bold",
+		textAlign: "center",
+		marginBottom: 8,
+	},
+	subtitle: {
+		fontSize: 16,
+		color: "#777",
+		textAlign: "center",
+		marginBottom: 16,
+	},
+	ratingContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		marginBottom: 16,
+	},
+	rating: {
+		fontSize: 16,
+		fontWeight: "bold",
+		color: "#4CAF50",
+	},
+	reviews: {
+		fontSize: 14,
+		color: "#777",
+	},
+	process: {
+		fontSize: 18,
+		fontWeight: "bold",
+		marginBottom: 8,
+	},
+	description: {
+		fontSize: 16,
+		color: "#444",
+		lineHeight: 22,
+		zIndex: 2,
 	},
 });
