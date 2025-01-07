@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
 		overflow: "hidden",
 		width: 120,
 		borderColor: "#f0f0f0",
-		elevation: 3,
 		borderWidth: 1,
 	},
 	image: {
