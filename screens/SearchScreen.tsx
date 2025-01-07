@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	SafeAreaView,
 	TextInput,
@@ -6,84 +6,96 @@ import {
 	FlatList,
 	Text,
 	View,
+	TouchableOpacity,
 	Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import SingleItemCard from "../components/SingleItemCard";
+import { recipes } from "../data/recipes-data";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { RootStackParamList } from "../navigation/AppNavigator";
+
 const SearchScreen = () => {
+	const [searchQuery, setSearchQuery] = useState<string>("");
+	const [searchResults, setSearchResults] = useState(recipes);
+	const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+	// Handle search logic
+	const handleSearch = (query: string) => {
+		setSearchQuery(query);
+		if (query.trim() === "") {
+			setSearchResults(recipes);
+		} else {
+			const filteredResults = recipes.filter((recipe) =>
+				recipe.title.toLowerCase().includes(query.toLowerCase())
+			);
+			setSearchResults(filteredResults);
+		}
+	};
+
 	return (
 		<SafeAreaView style={styles.safeArea}>
+			{/* Search Input */}
 			<View style={styles.Searchcontainer}>
 				<Ionicons name="search" size={20} color="#aaa" style={styles.icon} />
 				<TextInput
 					style={styles.input}
 					placeholder="Search any recipes"
 					placeholderTextColor="#aaa"
+					value={searchQuery}
+					onChangeText={handleSearch}
 				/>
 			</View>
 
-			{/* search result contents */}
+			{/* Search Summary */}
+			<View style={styles.searchForWhat}>
+				{searchQuery ? (
+					<View style={{ flexDirection: "row", alignItems: "center" }}>
+						<Text style={styles.searchText}>You searched for: </Text>
+						<Text style={{ fontWeight: "bold" }}>{searchQuery}</Text>
+					</View>
+				) : (
+					<Text style={styles.searchText}>
+						Search for your favorite recipes
+					</Text>
+				)}
+			</View>
+
+			{/* Search Results */}
 			<View style={styles.resultContainer}>
-				{/* single card design start*/}
-				<View style={styles.singleItemCard}>
-					<View>
-						<Image
-							source={require("../assets/images/profile.jpeg")} // Replace with the path to your local image
-							style={styles.singleItemCardImage}
-						/>
-					</View>
-					<View style={styles.singleItemCardContent}>
-						<Text style={styles.singleItemCardContentTitle}>Awesome Title</Text>
-						<Text style={styles.singleItemCardContentDescription}>
-							Lorem Ipsum Doler
-						</Text>
-					</View>
-				</View>
-
-				<View style={styles.singleItemCard}>
-					<View>
-						<Image
-							source={require("../assets/images/profile.jpeg")} // Replace with the path to your local image
-							style={styles.singleItemCardImage}
-						/>
-					</View>
-					<View style={styles.singleItemCardContent}>
-						<Text style={styles.singleItemCardContentTitle}>Awesome Title</Text>
-						<Text style={styles.singleItemCardContentDescription}>
-							Lorem Ipsum Doler
-						</Text>
-					</View>
-				</View>
-
-				<View style={styles.singleItemCard}>
-					<View>
-						<Image
-							source={require("../assets/images/profile.jpeg")} // Replace with the path to your local image
-							style={styles.singleItemCardImage}
-						/>
-					</View>
-					<View style={styles.singleItemCardContent}>
-						<Text style={styles.singleItemCardContentTitle}>Awesome Title</Text>
-						<Text style={styles.singleItemCardContentDescription}>
-							Lorem Ipsum Doler
-						</Text>
-					</View>
-				</View>
-
-				<View style={styles.singleItemCard}>
-					<View>
-						<Image
-							source={require("../assets/images/profile.jpeg")} // Replace with the path to your local image
-							style={styles.singleItemCardImage}
-						/>
-					</View>
-					<View style={styles.singleItemCardContent}>
-						<Text style={styles.singleItemCardContentTitle}>Awesome Title</Text>
-						<Text style={styles.singleItemCardContentDescription}>
-							Lorem Ipsum Doler
-						</Text>
-					</View>
-				</View>
-				{/* single card design end*/}
+				<FlatList
+					data={searchResults}
+					keyExtractor={(item) => item.id.toString()}
+					renderItem={({ item }) => (
+						<TouchableOpacity
+							onPress={() =>
+								navigation.navigate("Details", {
+									id: item.id,
+									title: item.title,
+									subtitle: item.subtitle,
+									image: item.image,
+									rating: item.rating,
+									reviews: item.reviews,
+								})
+							}
+						>
+							<SingleItemCard
+								title={item.title}
+								description={item.subtitle}
+								image={item.image}
+							/>
+						</TouchableOpacity>
+					)}
+					ListEmptyComponent={() => (
+						<View style={styles.noFoundWrapper}>
+							<Text style={styles.emptyText}>No results found</Text>
+							<Image
+								source={require("../assets/no-result.png")}
+								style={styles.notFoundImage}
+							/>
+						</View>
+					)}
+				/>
 			</View>
 		</SafeAreaView>
 	);
@@ -115,40 +127,34 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: "#000",
 	},
-
-	// search result content
+	searchForWhat: {
+		textAlign: "center",
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 20,
+	},
+	searchText: {
+		fontSize: 16,
+		color: "#555",
+	},
 	resultContainer: {
 		marginTop: 30,
+		flex: 1,
 	},
-	singleItemCard: {
-		display: "flex",
-		flexDirection: "row",
-		borderColor: "#ccc",
-		borderWidth: 1,
-		padding: 10,
-		margin: 10,
-		marginHorizontal: 20,
-		borderRadius: 10,
-	},
-	singleItemCardImage: {
-		width: 50,
-		height: 50,
-		borderRadius: 100,
-	},
-	singleItemCardContent: {
-		marginLeft: 20,
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	singleItemCardContentTitle: {
-		color: "#333",
+	emptyText: {
+		textAlign: "center",
+		color: "#999",
+		marginTop: 20,
 		fontSize: 18,
-		fontWeight: "bold",
-		marginBottom: 5,
+		marginBottom: 20,
 	},
-	singleItemCardContentDescription: {
-		color: "#444",
+	noFoundWrapper: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	notFoundImage: {
+		width: 200,
+		height: 200,
 	},
 });
 
