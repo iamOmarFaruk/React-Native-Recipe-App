@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Animated, {
 	useSharedValue,
 	useAnimatedStyle,
@@ -38,6 +39,22 @@ export default function DetailsScreen({
 		};
 	});
 
+	// Bookmark function
+	const addToBookmarks = async () => {
+		try {
+			let bookmarks = await AsyncStorage.getItem("bookmarks");
+			const parsedBookmarks: any[] = bookmarks ? JSON.parse(bookmarks) : [];
+			const newBookmark = { id, title, subtitle, image, rating, reviews };
+			await AsyncStorage.setItem(
+				"bookmarks",
+				JSON.stringify([...parsedBookmarks, newBookmark])
+			);
+			alert("Added to bookmarks!");
+		} catch (error) {
+			console.error("Failed to save bookmark", error);
+		}
+	};
+
 	return (
 		<View style={styles.safeArea}>
 			{/* Fullscreen Image Section */}
@@ -53,6 +70,19 @@ export default function DetailsScreen({
 				showsVerticalScrollIndicator={false}
 			>
 				<View style={styles.Contentwrapper}>
+					{/* buttons */}
+					<View
+						style={{ flexDirection: "row", justifyContent: "space-between" }}
+					>
+						<TouchableOpacity onPress={() => navigation.goBack()}>
+							<MaterialIcons name="arrow-back" size={24} color="#4CAF50" />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={addToBookmarks}>
+							<MaterialIcons name="favorite" size={24} color="red" />
+						</TouchableOpacity>
+					</View>
+					{/* buttons */}
+
 					<Text style={styles.title}>{title || "No Title"}</Text>
 					<Text style={styles.subtitle}>By {subtitle || "Unknown"}</Text>
 
@@ -67,19 +97,30 @@ export default function DetailsScreen({
 					<Text style={styles.process}>Process:</Text>
 					<Text style={styles.description}>
 						{/* Long description text */}
-						inima deleniti quae nobis odit, porro tempora repudiandae.Lorem
-						ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-						excepturi nihil, cupiditate nam aliquam, odio pariatur facilis
-						aspernatur, deserunt dolores commodi id culpa inventore sapiente!
-						Est nobis expedita fuga impedit ipsum commodi reprehenderit
-						obcaecati excepturi quae amet. Repellendus atque animi aliquid ab?
-						Ratione est quos explicabo mollitia magni optio placeat rem, cumque
-						quo molestiae molestias pariatur, alias laboriosam commodi?
-						Blanditiis itaque soluta delectus, non, excepturi asperiores nisi
-						aperiam quo aut officia maiores, voluptatem cum vero hic quisquam
-						architecto sequi mollitia! Autem at ipsum veritatis quo soluta ab,
-						accusamus culpa qui consequatur? Ex m inima deleniti quae nobis
-						odit, porro tempora repudiandae.Lorem ipsum dolor sit amet
+						deleniti quae nobis odit, porro tempora repudiandae.Lorem ipsum
+						dolor sit amet consectetur adipisicing elit. Doloribus excepturi
+						nihil, cupiditate nam aliquam, odio pariatur facilis aspernatur,
+						deserunt dolores commodi id culpa inventore sapiente! Est nobis
+						expedita fuga impedit ipsum commodi reprehenderit obcaecati
+						excepturi quae amet. Repellendus atque animi aliquid ab? Ratione est
+						quos explicabo mollitia magni optio placeat rem, cumque quo
+						molestiae molestias pariatur, alias laboriosam commodi? Blanditiis
+						itaque soluta delectus, non, excepturi asperiores nisi aperiam quo
+						aut officia maiores, voluptatem cum vero hic quisquam architecto
+						sequi mollitia! Autem at ipsum veritatis quo soluta ab, accusamus
+						culpa qui consequatur? Ex m inima deleniti quae nobis odit, porro
+						tempora repudiandae.Lorem ipsum dolor sit amet consectetur
+						adipisicing elit. Doloribus excepturi nihil, cupiditate nam aliquam,
+						odio pariatur facilis aspernatur, deserunt dolores commodi id culpa
+						inventore sapiente! Est nobis expedita fuga impedit ipsum commodi
+						reprehenderit obcaecati excepturi quae amet. Repellendus atque animi
+						aliquid ab? Ratione est quos explicabo mollitia magni optio placeat
+						rem, cumque quo molestiae molestias pariatur, alias laboriosam
+						commodi? Blanditiis itaque soluta delectus, non, excepturi
+						asperiores nisi aperiam quo aut officia maiores, voluptatem cum vero
+						hic quisquam architecto sequi mollitia! Autem at ipsum veritatis quo
+						soluta ab, accusamus culpa qui consequatur? Ex m inima deleniti quae
+						nobis odit, porro tempora repudiandae.Lorem ipsum dolor sit amet
 						consectetur adipisicing elit. Doloribus excepturi nihil, cupiditate
 						nam aliquam, odio pariatur facilis aspernatur, deserunt dolores
 						commodi id culpa inventore sapiente! Est nobis expedita fuga impedit
@@ -90,18 +131,7 @@ export default function DetailsScreen({
 						delectus, non, excepturi asperiores nisi aperiam quo aut officia
 						maiores, voluptatem cum vero hic quisquam architecto sequi mollitia!
 						Autem at ipsum veritatis quo soluta ab, accusamus culpa qui
-						consequatur? Ex m inima deleniti quae nobis odit, porro tempora
-						repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Doloribus excepturi nihil, cupiditate nam aliquam, odio pariatur
-						facilis aspernatur, deserunt dolores commodi id culpa inventore
-						sapiente! Est nobis expedita fuga impedit ipsum commodi
-						reprehenderit obcaecati excepturi quae amet. Repellendus atque animi
-						aliquid ab? Ratione est quos explicabo mollitia magni optio placeat
-						rem, cumque quo molestiae molestias pariatur, alias laboriosam
-						commodi? Blanditiis itaque soluta delectus, non, excepturi
-						asperiores nisi aperiam quo aut officia maiores, voluptatem cum vero
-						hic quisquam architecto sequi mollitia! Autem at ipsum veritatis quo
-						soluta ab, accusamus culpa qui consequatur? Ex m
+						consequatur? Ex m
 					</Text>
 				</View>
 			</Animated.ScrollView>
