@@ -119,6 +119,18 @@ export default function AppNavigator() {
 							<BookmarkScreen />
 						</Layout>
 					)}
+					options={{
+						headerShown: true,
+						headerTitle: "Bookmarks",
+						headerTintColor: "#4CAF50",
+						headerStyle: {
+							backgroundColor: "#fff",
+						},
+						headerTitleStyle: {
+							fontWeight: "bold",
+							fontSize: 18,
+						},
+					}}
 				/>
 
 				{/* Profile Screen */}
