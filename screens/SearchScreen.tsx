@@ -7,13 +7,13 @@ import {
 	Text,
 	View,
 	TouchableOpacity,
-	Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import SingleItemCard from "../components/SingleItemCard";
 import { recipes } from "../data/recipes-data";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppNavigator";
+import NotFoundArea from "../components/NotFoundArea";
 
 const SearchScreen = () => {
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -87,13 +87,10 @@ const SearchScreen = () => {
 						</TouchableOpacity>
 					)}
 					ListEmptyComponent={() => (
-						<View style={styles.noFoundWrapper}>
-							<Text style={styles.emptyText}>No results found</Text>
-							<Image
-								source={require("../assets/no-result.png")}
-								style={styles.notFoundImage}
-							/>
-						</View>
+						<NotFoundArea
+							message="No results found"
+							imageSource={require("../assets/no-result.png")}
+						/>
 					)}
 				/>
 			</View>
@@ -140,21 +137,6 @@ const styles = StyleSheet.create({
 	resultContainer: {
 		marginTop: 30,
 		flex: 1,
-	},
-	emptyText: {
-		textAlign: "center",
-		color: "#999",
-		marginTop: 20,
-		fontSize: 18,
-		marginBottom: 20,
-	},
-	noFoundWrapper: {
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	notFoundImage: {
-		width: 200,
-		height: 200,
 	},
 });
 
