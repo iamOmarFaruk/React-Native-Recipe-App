@@ -1,12 +1,12 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
-	ScrollView,
+	FlatList,
 	StyleSheet,
 	Text,
 	View,
 	Dimensions,
-	Animated,
 	TouchableOpacity,
+	Animated,
 } from "react-native";
 import { Image } from "expo-image";
 import { categories } from "../data/categories-data";
@@ -16,57 +16,62 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigator";
 
 export default function AllCategoriesScreen() {
-	const animations = useRef(
-		categories.map(() => new Animated.Value(50))
-	).current; // Initial Y offset for each card
-
 	const navigation =
 		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-	// Trigger animations on component mount
+	const animatedValues = useRef(
+		categories.map(() => new Animated.Value(50))
+	).current; // Initial Y offset for each card
+
 	useEffect(() => {
 		Animated.stagger(
 			100,
-			animations.map((animation) =>
-				Animated.timing(animation, {
+			animatedValues.map((anim) =>
+				Animated.spring(anim, {
 					toValue: 0,
-					duration: 600,
 					useNativeDriver: true,
 				})
 			)
 		).start();
-	}, [animations]);
+	}, [animatedValues]);
+
+	const renderItem = ({ item, index }: { item: any; index: number }) => {
+		const animatedStyle = {
+			transform: [{ translateY: animatedValues[index] }], // Slide-up animation
+		};
+
+		return (
+			<TouchableOpacity
+				onPress={() =>
+					navigation.navigate("AllRecipes", {
+						title: item.name,
+						iscategory: true,
+					})
+				}
+			>
+				<Animated.View
+					style={[
+						styles.categoryCard,
+						{ backgroundColor: getRandomColor() },
+						animatedStyle,
+					]}
+				>
+					<Image source={item.image} style={styles.categoryImage} />
+					<Text style={styles.categoryName}>{item.name}</Text>
+				</Animated.View>
+			</TouchableOpacity>
+		);
+	};
 
 	return (
 		<View style={styles.screenContainer}>
-			<ScrollView contentContainerStyle={styles.contentContainer}>
-				<View style={styles.gridContainer}>
-					{categories.map((category, index) => (
-						<TouchableOpacity
-							key={category.id}
-							onPress={() =>
-								navigation.navigate("AllRecipes", {
-									title: category.name,
-									iscategory: true,
-								})
-							}
-						>
-							<Animated.View
-								style={[
-									styles.categoryCard,
-									{
-										backgroundColor: getRandomColor(),
-										transform: [{ translateY: animations[index] }], // Slide-up animation
-									},
-								]}
-							>
-								<Image source={category.image} style={styles.categoryImage} />
-								<Text style={styles.categoryName}>{category.name}</Text>
-							</Animated.View>
-						</TouchableOpacity>
-					))}
-				</View>
-			</ScrollView>
+			<FlatList
+				data={categories}
+				numColumns={2}
+				keyExtractor={(item) => item.id.toString()}
+				renderItem={renderItem}
+				contentContainerStyle={styles.contentContainer}
+			/>
 		</View>
 	);
 }
@@ -80,17 +85,13 @@ const styles = StyleSheet.create({
 		paddingVertical: 20,
 		paddingHorizontal: 10,
 	},
-	gridContainer: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		justifyContent: "space-between",
-	},
 	categoryCard: {
 		width: Dimensions.get("window").width / 2 - 20, // 2 cards per row with spacing
 		height: 120, // Adjust card height
 		borderRadius: 15,
 		marginBottom: 15,
 		padding: 10,
+		margin: 5,
 		overflow: "hidden",
 		position: "relative", // To position image absolutely
 	},
