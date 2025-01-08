@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
 	SafeAreaView,
 	StyleSheet,
@@ -6,47 +6,48 @@ import {
 	View,
 	TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import SingleItemCard from "../components/SingleItemCard";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { RootStackParamList } from "../navigation/AppNavigator";
+
+interface BookmarkItem {
+	id: number;
+	title: string;
+	subtitle: string;
+	image: any;
+	rating: string;
+	reviews: number;
+}
 
 const BookmarkScreen = () => {
-	const bookmarkedData = [
-		{
-			id: 1,
-			title: "Recipe 1",
-			subtitle: "Delicious dish",
-			image: require("../assets/images/profile.jpeg"),
-		},
-		{
-			id: 2,
-			title: "Recipe 2",
-			subtitle: "Tasty treat",
-			image: require("../assets/images/profile.jpeg"),
-		},
-		{
-			id: 3,
-			title: "Recipe 3",
-			subtitle: "Yummy meal",
-			image: require("../assets/images/profile.jpeg"),
-		},
-		{
-			id: 4,
-			title: "Recipe 4",
-			subtitle: "Healthy snack",
-			image: require("../assets/images/profile.jpeg"),
-		},
-		{
-			id: 5,
-			title: "Recipe 5",
-			subtitle: "Savory delight",
-			image: require("../assets/images/profile.jpeg"),
-		},
-		{
-			id: 6,
-			title: "Recipe 6",
-			subtitle: "Savory delight",
-			image: require("../assets/images/profile.jpeg"),
-		},
-	];
+	const [bookmarkedData, setBookmarkedData] = useState<BookmarkItem[]>([]);
+	const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+	useEffect(() => {
+		const fetchBookmarks = async () => {
+			try {
+				const bookmarks = await AsyncStorage.getItem("bookmarks");
+				if (bookmarks) {
+					const parsedBookmarks: BookmarkItem[] = JSON.parse(bookmarks);
+					const uniqueBookmarks: BookmarkItem[] = Array.from(
+						new Map(parsedBookmarks.map((item) => [item.id, item])).values()
+					).map((item) => ({
+						id: item.id,
+						title: item.title,
+						subtitle: item.subtitle,
+						image: item.image,
+						rating: item.rating,
+						reviews: item.reviews,
+					}));
+					setBookmarkedData(uniqueBookmarks);
+				}
+			} catch (error) {
+				console.error("Failed to load bookmarks", error);
+			}
+		};
+		fetchBookmarks();
+	}, []);
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -54,13 +55,24 @@ const BookmarkScreen = () => {
 				data={bookmarkedData}
 				keyExtractor={(item) => item.id.toString()}
 				renderItem={({ item }) => (
-					<TouchableOpacity>
-						<SingleItemCard
-							title={item.title}
-							description={item.subtitle}
-							image={item.image}
-						/>
-					</TouchableOpacity>
+					// <TouchableOpacity
+					// 	onPress={() =>
+					// 		navigation.navigate("Details", {
+					// 			id: item.id,
+					// 			title: item.title,
+					// 			subtitle: item.subtitle,
+					// 			image: item.image,
+					// 			rating: item.rating,
+					// 			reviews: item.reviews,
+					// 		})
+					// 	}
+					// >
+					<SingleItemCard
+						title={item.title}
+						description={item.subtitle}
+						image={item.image}
+					/>
+					// </TouchableOpacity>
 				)}
 			/>
 		</SafeAreaView>
