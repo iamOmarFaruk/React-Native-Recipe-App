@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
@@ -24,6 +24,7 @@ export default function DetailsScreen({
 	navigation,
 }: DetailsScreenProps) {
 	const { id, title, subtitle, image, rating, reviews } = route.params;
+	const [isBookmarked, setIsBookmarked] = useState(false);
 
 	// ============ Animation Stuff ==============
 	const scrollY = useSharedValue(0);
@@ -39,16 +40,45 @@ export default function DetailsScreen({
 		};
 	});
 
+	useEffect(() => {
+		const checkIfBookmarked = async () => {
+			try {
+				const bookmarks = await AsyncStorage.getItem("bookmarks");
+				if (bookmarks) {
+					const parsedBookmarks = JSON.parse(bookmarks);
+					const exists = parsedBookmarks.some(
+						(item: { id: number }) => item.id === id
+					);
+					setIsBookmarked(exists);
+				}
+			} catch (error) {
+				console.error("Failed to check bookmarks", error);
+			}
+		};
+		checkIfBookmarked();
+	}, [id]);
+
 	// Bookmark function
 	const addToBookmarks = async () => {
 		try {
-			let bookmarks = await AsyncStorage.getItem("bookmarks");
-			const parsedBookmarks: any[] = bookmarks ? JSON.parse(bookmarks) : [];
+			const bookmarks = await AsyncStorage.getItem("bookmarks");
+			const parsedBookmarks = bookmarks ? JSON.parse(bookmarks) : [];
 			const newBookmark = { id, title, subtitle, image, rating, reviews };
+
+			if (isBookmarked) {
+				Toast.show({
+					type: "info",
+					text1: "Already Added",
+					text2: "This item is already in your bookmarks.",
+				});
+				return;
+			}
+
 			await AsyncStorage.setItem(
 				"bookmarks",
 				JSON.stringify([...parsedBookmarks, newBookmark])
 			);
+			setIsBookmarked(true);
 			Toast.show({
 				type: "success",
 				text1: "Success",
@@ -87,7 +117,11 @@ export default function DetailsScreen({
 							<MaterialIcons name="arrow-back" size={24} color="#4CAF50" />
 						</TouchableOpacity>
 						<TouchableOpacity onPress={addToBookmarks}>
-							<MaterialIcons name="favorite" size={24} color="red" />
+							<MaterialIcons
+								name="favorite"
+								size={24}
+								color={isBookmarked ? "red" : "green"}
+							/>
 						</TouchableOpacity>
 					</View>
 					{/* buttons */}
