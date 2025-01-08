@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 import Animated, {
 	useSharedValue,
 	useAnimatedStyle,
-	withSpring,
 	useAnimatedScrollHandler,
 } from "react-native-reanimated";
 
@@ -49,9 +49,18 @@ export default function DetailsScreen({
 				"bookmarks",
 				JSON.stringify([...parsedBookmarks, newBookmark])
 			);
-			alert("Added to bookmarks!");
+			Toast.show({
+				type: "success",
+				text1: "Success",
+				text2: "Added to bookmarks!",
+			});
 		} catch (error) {
 			console.error("Failed to save bookmark", error);
+			Toast.show({
+				type: "error",
+				text1: "Error",
+				text2: "Failed to save bookmark.",
+			});
 		}
 	};
 
@@ -135,6 +144,7 @@ export default function DetailsScreen({
 					</Text>
 				</View>
 			</Animated.ScrollView>
+			<Toast />
 		</View>
 	);
 }
