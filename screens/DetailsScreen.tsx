@@ -67,7 +67,7 @@ export default function DetailsScreen({
 
 			if (isBookmarked) {
 				Toast.show({
-					type: "info",
+					type: "error",
 					text1: "Already Added",
 					text2: "This item is already in your bookmarks.",
 				});
