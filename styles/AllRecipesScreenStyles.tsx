@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 	},
 	recipeCard: {
 		width: Dimensions.get("window").width / 2 - 20,
-		marginBottom: 15,
+		margin: 5,
 		backgroundColor: "#fff",
 		borderRadius: 15,
 		overflow: "hidden",

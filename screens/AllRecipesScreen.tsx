@@ -1,6 +1,12 @@
-import React from "react";
-import { ScrollView, Text, View, Image, TouchableOpacity } from "react-native";
-
+import React, { useRef, useEffect } from "react";
+import {
+	FlatList,
+	Text,
+	View,
+	Image,
+	TouchableOpacity,
+	Animated,
+} from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppNavigator";
@@ -20,109 +26,91 @@ export default function AllRecipesScreen({ route }: AllRecipesScreenProps) {
 	const navigation =
 		useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-	if (iscategory) {
-		// make a perfect category filter here
-		const categoryRecipes = recipes.filter((recipe) =>
-			recipe.category.some((cat) => cat.toLowerCase() === title?.toLowerCase())
-		);
+	const animatedValues = useRef(
+		recipes.map(() => new Animated.Value(50))
+	).current;
+
+	useEffect(() => {
+		Animated.stagger(
+			100,
+			animatedValues.map((anim) =>
+				Animated.spring(anim, {
+					toValue: 0,
+					useNativeDriver: true,
+				})
+			)
+		).start();
+	}, [animatedValues]);
+
+	const renderRecipe = ({ item, index }: { item: any; index: number }) => {
+		const animatedStyle = {
+			transform: [{ translateY: animatedValues[index] }],
+		};
 
 		return (
-			<View style={styles.screenContainer}>
-				<ScrollView contentContainerStyle={styles.contentContainer}>
-					<View style={styles.gridContainer}>
-						{/* if not found any item then use  
-						NotFoundArea.tsx */}
-						{categoryRecipes.length === 0 ? (
-							<View
-								style={{
-									flex: 1,
-									justifyContent: "center",
-									alignItems: "center",
-								}}
-							>
-								<NotFoundArea
-									message="No recipes found in this category"
-									imageSource={require("../assets/no-result.png")}
-								/>
-							</View>
-						) : (
-							categoryRecipes.map((recipe) => (
-								<TouchableOpacity
-									key={recipe.id}
-									onPress={() =>
-										navigation.navigate("Details", {
-											id: recipe.id,
-											title: recipe.title,
-											subtitle: recipe.subtitle,
-											image: recipe.image,
-											rating: recipe.rating,
-											reviews: recipe.reviews,
-										})
-									}
-								>
-									<View style={styles.recipeCard}>
-										<Image source={recipe.image} style={styles.recipeImage} />
-										<View style={styles.recipeInfo}>
-											<Text style={styles.recipeTitle}>{recipe.title}</Text>
-											<Text style={styles.recipeSubtitle}>
-												{recipe.subtitle}
-											</Text>
-											<View style={styles.ratingContainer}>
-												<Text style={styles.recipeRating}>
-													⭐ {recipe.rating}
-													<Text style={styles.recipeRatingCount}>
-														({recipe.reviews} reviews)
-													</Text>
-												</Text>
-											</View>
-										</View>
-									</View>
-								</TouchableOpacity>
-							))
-						)}
+			<TouchableOpacity
+				onPress={() =>
+					navigation.navigate("Details", {
+						id: item.id,
+						title: item.title,
+						subtitle: item.subtitle,
+						image: item.image,
+						rating: item.rating,
+						reviews: item.reviews,
+					})
+				}
+			>
+				<Animated.View style={[styles.recipeCard, animatedStyle]}>
+					<Image source={item.image} style={styles.recipeImage} />
+					<View style={styles.recipeInfo}>
+						<Text style={styles.recipeTitle}>{item.title}</Text>
+						<Text style={styles.recipeSubtitle}>{item.subtitle}</Text>
+						<View style={styles.ratingContainer}>
+							<Text style={styles.recipeRating}>
+								⭐ {item.rating}
+								<Text style={styles.recipeRatingCount}>
+									({item.reviews} reviews)
+								</Text>
+							</Text>
+						</View>
 					</View>
-				</ScrollView>
-			</View>
+				</Animated.View>
+			</TouchableOpacity>
 		);
-	}
+	};
+
+	const filteredRecipes = iscategory
+		? recipes.filter((recipe) =>
+				recipe.category.some(
+					(cat) => cat.toLowerCase() === title?.toLowerCase()
+				)
+		  )
+		: recipes;
 
 	return (
 		<View style={styles.screenContainer}>
-			<ScrollView contentContainerStyle={styles.contentContainer}>
-				<View style={styles.gridContainer}>
-					{recipes.map((recipe) => (
-						<TouchableOpacity
-							key={recipe.id}
-							onPress={() =>
-								navigation.navigate("Details", {
-									id: recipe.id,
-									title: recipe.title,
-									subtitle: recipe.subtitle,
-									image: recipe.image,
-									rating: recipe.rating,
-									reviews: recipe.reviews,
-								})
-							}
-						>
-							<View style={styles.recipeCard}>
-								<Image source={recipe.image} style={styles.recipeImage} />
-								<View style={styles.recipeInfo}>
-									<Text style={styles.recipeTitle}>{recipe.title}</Text>
-									<Text style={styles.recipeSubtitle}>{recipe.subtitle}</Text>
-									<View style={styles.ratingContainer}>
-										<Text style={styles.recipeRating}>
-											⭐ {recipe.rating}
-											<Text style={styles.recipeRatingCount}>
-												({recipe.reviews} reviews)
-											</Text>
-										</Text>
-									</View>
-								</View>
-							</View>
-						</TouchableOpacity>
-					))}
+			{filteredRecipes.length === 0 ? (
+				<View
+					style={{
+						flex: 1,
+						justifyContent: "center",
+						alignItems: "center",
+					}}
+				>
+					<NotFoundArea
+						message="No recipes found in this category"
+						imageSource={require("../assets/no-result.png")}
+					/>
 				</View>
-			</ScrollView>
+			) : (
+				<FlatList
+					data={filteredRecipes}
+					renderItem={renderRecipe}
+					keyExtractor={(item) => item.id.toString()}
+					contentContainerStyle={styles.contentContainer}
+					numColumns={2}
+				/>
+			)}
 		</View>
 	);
 }
